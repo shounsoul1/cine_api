@@ -27,10 +27,32 @@ export const registrarCliente = async (req,res)=>{
     }catch(error){
         res.json(error)
     }
+}
+export const actualizarCliente = async (req,res)=>{
+    try{
+        const id = req.params.id;
+        const datosActualizados = await req.body;
+        const result = await Clientes.findByIdAndUpdate(id, datosActualizados) 
+        res.status(200).json(result)
+        console.log("Actualizado con exito")
+    }catch(error){
+        res.status(500).json({Error: "Internal server error " + error})
+    }
+}
 
+export const borrarCliente = async (req,res)=>{
+    try{
+        const id = req.params.id
+        const response = await Clientes.findByIdAndRemove(id)
+        res.status(200).json(response)
+    }catch(error){
+        res.status(500).json({Error: error})
+    } 
 }
 
 export default{
     getAllClientes,
-    registrarCliente
+    registrarCliente,
+    actualizarCliente,
+    borrarCliente
 }

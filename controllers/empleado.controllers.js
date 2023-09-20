@@ -28,7 +28,31 @@ export const registrarEmpleado = async function(req,res){
         res.status(500).json('Error interno')
     }
 }
+export const actualizarEmpleado = async (req,res)=>{
+    try{
+        const id = req.params.id;
+        const datosActualizados = await req.body;
+        const result = await Empleados.findByIdAndUpdate(id, datosActualizados) 
+        res.status(200).json(result)
+        console.log("Actualizado con exito")
+    }catch(error){
+        res.status(500).json({Error: "Internal server error " + error})
+    }
+}
+
+export const borrarEmpleado = async (req,res)=>{
+    try{
+        const id = req.params.id
+        const response = await Empleados.findByIdAndRemove(id)
+        res.status(200).json(response)
+    }catch(error){
+        res.status(500).json({Error: error})
+    } 
+}
+
 export default {
     getAllEmpleados,
-    registrarEmpleado
+    registrarEmpleado,
+    actualizarEmpleado,
+    borrarEmpleado
 }
